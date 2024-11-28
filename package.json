@@ -1,0 +1,14 @@
+{
+  "name": "amazbot",
+  "type": "module",
+  "dependencies": {
+    "canvas": "^2.11.1",
+    "discord-interactions": "^3.4.0",
+    "discord.js": "^14.15.2",
+    "dotenv": "^16.4.5"
+  },
+  "scripts": {
+    "start": "node --trace-deprecation main.js",
+    "register": "node commands.js"
+  }
+}
