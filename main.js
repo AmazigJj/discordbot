@@ -78,19 +78,55 @@ client.on('interactionCreate', async interaction => {
 
 
 function drawText(ctx, text, x, y, height, width) {
-    var lines = text.split('\\n');
+    let slash = false
+    let has_space = false
+    
+    let cur_line = ""
+    let lines = []
+
+    let i = 0
+    while (true) {
+        if (i == text.length) {
+            lines.push(cur_line)
+            cur_line = ""
+            break;
+        }
+        if (slash) {
+            switch (text[i]){
+                case 'n':
+                    lines.push(cur_line)
+                    cur_line = ""
+                    i++
+                    break;
+            }
+            slash = false;
+            
+        }
+        else {
+            switch (text[i]) {
+                case '\\':
+                    slash = true;
+                    i++
+                    break;
+                case ' ':
+                    // test length of line
+                default:
+                    console.log(text[i])
+                    cur_line+=text[i]
+                    i++
+                    break
+            }
+        }
+    }
+    
+    // let lines = text.split('\\n');
     console.log(lines);
-    var start_y = y - ( lines.length * 36 );
+    let start_y = y - ( lines.length * 36 );
 
-    var new_text = lines.join('\n');
-    console.log(new_text);
-    ctx.fillText(new_text, x, y, width);
-
-    // for (var i in lines) {
-    //     var line = lines[i];
-    //     console.log(line);
-    //     ctx.fillText(line, x, start_y+(i*72), width);
-    // }
+    for (let i in lines) {
+        let line = lines[i];
+        ctx.fillText(line, x, start_y+(i*72), width);
+    }
 }
 
 client.login(TOKEN);
