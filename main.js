@@ -1,8 +1,9 @@
 import { Client, GatewayIntentBits, EmbedBuilder, AttachmentBuilder } from 'discord.js';
 import { registerFont, createCanvas, loadImage } from 'canvas';
+import 'dotenv/config';
 // import { API } from 'cool-image-api-wrapper';
 const CLIENT_ID = "1237883939151024180";
-const TOKEN = "MTIzNzg4MzkzOTE1MTAyNDE4MA.GrJFAj.V2nkBG8KF81iqdpIi7SZ4QcR9aM-gFp1nUTh4Y";
+const TOKEN = process.env.DISCORD_TOKEN;
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 client.on('ready', () => {
@@ -64,9 +65,9 @@ client.on('interactionCreate', async interaction => {
         ctx.textBaseline = 'middle';
 
         // ctx.fillText(textA, 900, 300, 400);
-        drawText(ctx, textA, 900, 300, 400);
+        drawText(ctx, textA, 900, 300, 0, 400);
         // ctx.fillText(textB, 900, 900, 400);
-        drawText(ctx, textB, 900, 900, 400);
+        drawText(ctx, textB, 900, 900, 0, 400);
 
         const buffer = canvas.toBuffer();
 
@@ -79,17 +80,17 @@ client.on('interactionCreate', async interaction => {
 function drawText(ctx, text, x, y, height, width) {
     var lines = text.split('\\n');
     console.log(lines);
-    // for (var line in lines) {
-    //     console.log(line);
-    // }
-    var start_y = y - ( lines.length * 36 )
+    var start_y = y - ( lines.length * 36 );
 
-    for (var i in lines) {
-        var line = lines[i];
-        console.log(line);
-        ctx.fillText(line, x, start_y+(i*72), width);
-    }
-    // 
+    var new_text = lines.join('\n');
+    console.log(new_text);
+    ctx.fillText(new_text, x, y, width);
+
+    // for (var i in lines) {
+    //     var line = lines[i];
+    //     console.log(line);
+    //     ctx.fillText(line, x, start_y+(i*72), width);
+    // }
 }
 
 client.login(TOKEN);
